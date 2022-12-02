@@ -21,7 +21,7 @@ module midterm(clk, pause_b, acc_b, seg0, seg1, seg2, seg3);
     always@(posedge clk) begin
 		if (pause_w)
             pause <= ~pause;
-        else if (!timer)
+        else if (!timer && !small_counter)
             pause <= 1;
 	end
 
