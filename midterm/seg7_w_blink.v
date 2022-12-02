@@ -11,8 +11,10 @@ module seg7_w_blink(clk, in, blink, out);
             if (counter >= gap) begin
                 counter <= 0;
                 dark <= ~dark;
-            end else
+            end else begin
                 counter <= counter + 1;
+				dark <= 0;
+			end
         end
     end
 
