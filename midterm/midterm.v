@@ -2,7 +2,7 @@ module midterm(clk, pause_b, acc_b, seg0, seg1, seg2, seg3);
     input clk, pause_b, acc_b;
     output [6:0] seg0, seg1, seg2, seg3;
 	reg pause, start, small_counter;
-    reg [11:0] timer;
+    reg [11:0] timer=1;
     wire pause_w, acc_w, custom_clk, blink;
 	wire [3:0] s0, s1, m0, m1;
 	//debug
@@ -27,9 +27,7 @@ module midterm(clk, pause_b, acc_b, seg0, seg1, seg2, seg3);
 
     always@(posedge custom_clk) begin
         if (!pause) begin
-            if (!timer) begin
-                small_counter <= 1;
-                if (small_counter && pause)
+            if (!timer && small_counter) begin
                     timer <= 3599;
             end
             else begin
@@ -37,5 +35,8 @@ module midterm(clk, pause_b, acc_b, seg0, seg1, seg2, seg3);
                 small_counter <= 0;
             end
         end
+		  
+		  if (!timer)
+			 small_counter <= 1;
     end
 endmodule
