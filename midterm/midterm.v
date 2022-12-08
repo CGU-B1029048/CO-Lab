@@ -1,12 +1,10 @@
 module midterm(clk, pause_b, acc_b, seg0, seg1, seg2, seg3);
     input clk, pause_b, acc_b;
     output [6:0] seg0, seg1, seg2, seg3;
-	 reg pause, small_counter;
+	reg pause, small_counter;
     reg [11:0] timer;
     wire pause_w, acc_w, custom_clk, blink;
 	wire [3:0] s0, s1, m0, m1;
-	//debug
-	//output reg pause;
 
     debounce PB(clk, pause_b, pause_w);
 	debounce ACC(clk, acc_b, acc_w);
