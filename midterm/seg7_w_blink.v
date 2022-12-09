@@ -2,21 +2,21 @@ module seg7_w_blink(clk, in, blink, out);
     input [3:0] in;
     input blink, clk;
     reg dark;
-    reg [19:0] counter;
+    reg [25:0] counter;
     output reg [6:0] out;
-    parameter gap = 1000000;  //blink freq
+    parameter gap = 25000000;  //blink freq
 
     always@(posedge clk) begin 
         //blink = 1 will blink
-        if (blink) begin 
-            if (counter >= gap) begin
-                counter <= 0;
+        if (counter >= gap) begin
+		      counter <= 0; 
+            if (blink)
                 dark <= ~dark;
-            end else
-                counter <= counter + 1;
-        end else begin
-				dark <= 0;
-		  end
+            else
+                dark <= 0;
+        end else 
+				counter <= counter + 1;
+		  
     end
 
     always@(*) begin
