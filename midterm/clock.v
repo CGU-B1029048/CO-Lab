@@ -28,7 +28,8 @@ module clock(clk, acc, output_pulses);
             if (counter >= clk_freq1) begin
                 counter <= 1;
                 clock_out <= ~clock_out;
-                output_pulses <= 1;
+                if (!clock_out)
+                    output_pulses <= 1;
             end else begin
                 counter <= counter + 1;
                 output_pulses <= 0;
