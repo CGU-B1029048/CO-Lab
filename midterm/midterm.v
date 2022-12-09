@@ -5,7 +5,7 @@ module midterm(clk, pause_b, acc_b, mode_b, inc_b, seg0, seg1, seg2, seg3);
     reg [1:0] mode;
     reg [11:0] timer;
     reg [3:0] blink;
-    wire pause_w, acc_w, custom_clk, blink, mode_w, inc_w;
+    wire pause_w, acc_w, custom_clk, mode_w, inc_w;
 	wire [3:0] s0, s1, m0, m1;
 
     debounce PB(clk, pause_b, pause_w);
@@ -51,9 +51,9 @@ module midterm(clk, pause_b, acc_b, mode_b, inc_b, seg0, seg1, seg2, seg3);
                 end
                 //set blink when 00:00
                 if (!timer)
-                    blink = 4'd0;
-                else
                     blink = 4'b1111;
+                else
+                    blink = 4'd0;
                 if (mode_w)
                     mode <= 1;                
             end
