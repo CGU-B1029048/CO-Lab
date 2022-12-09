@@ -28,16 +28,16 @@ module midterm(clk, pause_b, acc_b, seg0, seg1, seg2, seg3);
 			 small_counter <= 0;
 	end
 
-    always@(posedge custom_clk) begin
-        if (!pause) begin
-            if (!timer && small_counter) begin
+    always@(posedge clk) begin
+        if (custom_clk) begin
+            if (!pause) begin
+                if (!timer && small_counter) begin
                     timer <= 3599;
-            end
-            else begin
-                timer <= timer - 1;
+                end
+                else begin
+                    timer <= timer - 1;
+                end
             end
         end
-		  
-		  
     end
 endmodule
