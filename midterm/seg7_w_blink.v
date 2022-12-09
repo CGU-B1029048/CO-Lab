@@ -6,7 +6,8 @@ module seg7_w_blink(clk, in, blink, out);
     output reg [6:0] out;
     parameter gap = 1000000;  //blink freq
 
-    always@(posedge clk) begin //blink
+    always@(posedge clk) begin 
+        //blink = 1 will blink
         if (blink) begin 
             if (counter >= gap) begin
                 counter <= 0;
