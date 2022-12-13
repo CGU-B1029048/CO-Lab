@@ -1,15 +1,15 @@
 module midterm(clk, pause_b, acc_b, mode_b, inc_b, seg0, seg1, seg2, seg3);
     input clk, pause_b, acc_b, mode_b, inc_b;
     output [6:0] seg0, seg1, seg2, seg3;
-	reg pause, small_counter;
+    reg pause, small_counter;
     reg [1:0] mode;
     reg [11:0] timer;
     reg [3:0] blink;
     wire pause_w, acc_w, custom_clk, mode_w, inc_w;
-	wire [3:0] s0, s1, m0, m1;
+    wire [3:0] s0, s1, m0, m1;
 
     debounce PB(clk, pause_b, pause_w);
-	debounce ACC(clk, acc_b, acc_w);
+    debounce ACC(clk, acc_b, acc_w);
     debounce MODE(clk, mode_b, mode_w);
     debounce INC(clk, inc_b, inc_w);
     seg7_w_blink S0(clk, s0, blink[0], seg0);
@@ -21,19 +21,19 @@ module midterm(clk, pause_b, acc_b, mode_b, inc_b, seg0, seg1, seg2, seg3);
     decoder dec(timer, s0, s1, m0, m1);
     
     always@(posedge clk) begin
-		if (pause_w)
+        if (pause_w)
             pause <= ~pause;
         else if (!timer && !small_counter)
             pause <= 1;
 				
-		if (!timer)
-			 small_counter <= 1;
-		else
-			 small_counter <= 0;
+        if (!timer)
+            small_counter <= 1;
+        else
+            small_counter <= 0;
         //mode 1/2 pause clock
         if (mode == 1 || mode == 2)
             pause <= 1;
-	end
+    end
 
     always@(posedge clk) begin
         case (mode)
