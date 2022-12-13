@@ -1,32 +1,21 @@
 module lab6 (
-    input [7:0] A, B,
+    input [4:0] A, B,
     input Cin, clk,
     input [2:0] S,
-    output reg [7:0] Data,
-    output Cout
-    );
-    reg [7:0] AddB;
+    output [7:0] Data,
+    output Cout,
+    output [6:0] segA, seg_signA, segB, seg_signB, segData, seg_signData
+);
+    //seg7 output A
+    seg7_w_sign(1, {4{A[4]}}, seg_signA);
+    seg7_w_sign(0, A[3:0], seg_A);
+    //seg7 output B
+    seg7_w_sign(1, {4{B[4]}}, seg_signB);
+    seg7_w_sign(0, B[3:0], seg_B);
+    //seg7 output Data
+    seg7_w_sign(1, {4{Data[4]}}, seg_signData);
+    seg7_w_sign(0, Data[3:0], seg_Data);
 
-    always@(posedge clk) begin
-        case(S[2])
-            0:begin
-                case (S[1:0])
-                    0: AddB = 8'b0;
-                    1: AddB = B;
-                    2: AddB = ~B;
-                    3: AddB = 8'b11111111;
-                endcase
-                Data = A + AddB + Cin;
-            end
-            1: begin
-                case({S[0], Cin})
-                    0: Data = A&B;
-                    1: Data = A|B;
-                    2: Data = A^B;
-                    3: Data = ~A;
-                endcase                
-            end
-        endcase
-    end
-    
+    //input to ALU module
+    ALU({3{A[4]}, A}, {3{B[5]}, B}, Cin, clk, S, Data, Cout); 
 endmodule
