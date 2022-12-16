@@ -1,6 +1,6 @@
 module lab6 (
     input [4:0] A, B,
-    input Cin, clk,
+    input Cin,
     input [2:0] S,
     output [7:0] Data,
     output Cout,
@@ -17,5 +17,5 @@ module lab6 (
     seg7_w_sign(0, Data[3:0], seg_Data);
 
     //input to ALU module
-    ALU({{3{A[4]}}, A[4:0]}, {{3{B[4]}}, B[4:0]}, Cin, clk, S, Data, Cout); 
+    ALU({{3{A[4]}}, A[4:0]}, {{3{B[4]}}, B[4:0]}, Cin, S, Data, Cout); 
 endmodule
