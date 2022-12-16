@@ -7,7 +7,7 @@ module seg7_w_sign(sign ,in, out);
         //sign bit display
         if (sign) begin
             case (in)
-                4'b0000: out = 7'bx;
+                4'b0000: out = 7'b1111111;
                 4'b1111: out = 7'b0111111; 
                 default: out = 7'bx;
             endcase

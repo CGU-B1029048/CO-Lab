@@ -5,7 +5,7 @@ module ALU (
     output reg [7:0] Data,
     output Cout
     );
-    wire Data_logic, Data_arithmetic;
+    wire [7:0] Data_logic, Data_arithmetic;
     //input to Logic unit
     Logic_unit(A, B, {S[0], Cin}, Data_logic);
     //input to Aeithmetic unit
