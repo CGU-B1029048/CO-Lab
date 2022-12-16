@@ -5,35 +5,36 @@ module lab6 (
     output Cout,
     output [6:0] segA, seg_signA, segB, seg_signB, segData0, segData1, seg_signData
 );
-    reg [7:0] Data;
-    reg [4:0] A1c, B1c, Data1c;
+    wire [7:0] Data;
+    reg [7:0] Data1c;
+    reg [4:0] A1c, B1c;
 
     //transfrom A B to 1's complement for 7 seg dispaly
     always@(*) begin
         case (A[4])
-            1: A1c = ~A + 5'b10001;
+            1: A1c = ~A + 1;
             0: A1c = A;
         endcase
         case (B[4])
-            1: B1c = ~B + 5'b10001;
+            1: B1c = ~B + 1;
             0: B1c = B;
         endcase
     end
 
     //transfrom Data to 1's complement for 7 seg dispaly
     always @(*) begin
-        case (Data[7]) begin
+        case (Data[7])
             1: Data1c = ~Data + 1;
             0: Data1c = Data;
-        end
+        endcase
     end
 
 
     //seg7 output A
-    seg7_w_sign(1, {4{A1c[4]}}, seg_signA);
+    seg7_w_sign(1, {4{A[4]}}, seg_signA);
     seg7_w_sign(0, A1c[3:0], segA);
     //seg7 output B
-    seg7_w_sign(1, {4{B1c[4]}}, seg_signB);
+    seg7_w_sign(1, {4{B[4]}}, seg_signB);
     seg7_w_sign(0, B1c[3:0], segB);
     //seg7 output Data
     seg7_w_sign(1, {4{Data[7]}}, seg_signData);
