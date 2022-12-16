@@ -9,7 +9,7 @@ module lab6 (
     reg [7:0] Data1c;
     reg [4:0] A1c, B1c;
 
-    //transfrom A B to 1's complement for 7 seg dispaly
+    //transfrom A B from 2's complement to 7 seg dispaly
     always@(*) begin
         case (A[4])
             1: A1c = ~A + 1;
@@ -21,7 +21,7 @@ module lab6 (
         endcase
     end
 
-    //transfrom Data to 1's complement for 7 seg dispaly
+    //transfrom Data from 2's complement to 7 seg dispaly
     always @(*) begin
         case (Data[7])
             1: Data1c = ~Data + 1;
