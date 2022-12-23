@@ -2,7 +2,7 @@ module ALU (
     input [7:0] A, B,
     input Cin,
     input [2:0] S,
-    output [7:0] Data,
+    output reg [7:0] Data,
     output Cout, Overflow
     );
     wire [7:0] Data_logic, Data_arithmetic;

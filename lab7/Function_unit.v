@@ -2,19 +2,23 @@ module Function_unit (
     input [3:0] FS,
     input [7:0] A, B,
     output V, C, N, Z,
-    output [7:0] F
+    output reg [7:0] F
 );
     wire [7:0] ALU_data, sh_data;
-    wire Cout, Overflow;
+    wire Cout, Overflow, MF; 
     //ALU
     ALU(A, B, FS[0], FS[3:1], ALU_data, Cout, Overflow);
     //Shifter
-    Shifter(B, FS[1:0], 0, 0, sh_data);
+    shifter(B, FS[1:0], 0, 0, sh_data);
+
+    //MF = FS[3] AND FS[2]
+    assign MF = FS[3] & FS[2];
 
     //MUX for select data from ALU or shifter
     always@(*) begin
-        case (FS[3:2])
-            3: F =  sh_data;
+        case (MF)
+            0: F =  sh_data;
+            1: F = ALU_data;
             default: F = ALU_data;
         endcase
     end

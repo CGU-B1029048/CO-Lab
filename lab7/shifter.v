@@ -2,7 +2,7 @@ module shifter (
     input [7:0] B,
     input [1:0] H_S,
     input I_L, I_R,
-    output [7:0] Data
+    output reg [7:0] Data
 );
     //MUX for select shift left or right or NC
     always@(*) begin
