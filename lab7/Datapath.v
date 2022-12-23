@@ -1,12 +1,13 @@
 module Datapath (
     input [2:0] DA, AA, BA,
     input [3:0] FS,
-    input MB, MD, RW, reset, clk
+    input MB, MD, RW, reset, clk,
     input [7:0] Data_in, constant_in,
     output [7:0] Data_out, Address_out,
     output V, C, D, Z
 );
-    wire [7:0] Bus_A, Bus_B, RFout_B, FU_Data, DA_Data;
+    wire [7:0] Bus_A, RFout_B, FU_Data;
+    reg [7:0] Bus_B, DA_Data;
 
     //register file
     Register_File(DA_Data, DA, AA, BA, RW, reset, clk, Bus_A, RFout_B);
