@@ -22,6 +22,6 @@ module Function_unit (
     //assign for C(Carry out), V(Overflow), N(negative), Z(zero)
     assign C = Cout;
     assign V = Overflow;
-    assign N = F[7];
-    assign Z = (F == 8'd0) ? 1 : 0;
+    assign N = ALU_data[7] ^ V;
+    assign Z = (ALU_data == 8'd0) ? 1 : 0;
 endmodule
