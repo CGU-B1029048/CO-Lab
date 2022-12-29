@@ -1,5 +1,5 @@
 module lab7 (
-    input [15:0] OPcode_in,
+    input [15:0] Control_word_in,
     input [4:0] Data_in,
     input start_b, reset_b, clk,
     input [2:0] S,
@@ -10,15 +10,15 @@ module lab7 (
     wire start, reset;
     reg [7:0] Data1c;
     reg [4:0] Data_in1c;
-    reg [15:0] OPcode;
+    reg [15:0] Control_word;
 
     debounce(clk, start_b, start);
     debounce(clk, reset_b, reset);
 
-    //enter OPcode which will later goto Datapath while start_b pressed
+    //enter Control_word which will later goto Datapath while start_b pressed
     always@(posedge clk) begin
         if (start)
-            OPcode <= OPcode_in;
+            Control_word <= Control_word_in;
     end
 
     //transfrom Data_in from 2's complement to 7 seg dispaly
@@ -47,14 +47,14 @@ module lab7 (
 
     //input to Datapath module
     Datapath(
-        //OPcode
-        .DA(OPcode[15:13]),
-        .AA(OPcode[12:10]),
-        .BA(OPcode[9:7]),
-        .MB(OPcode[6]),
-        .FS(OPcode[5:2]),
-        .MD(OPcode[1]),
-        .RW(OPcode[0]),
+        //Control_word
+        .DA(Control_word[15:13]),
+        .AA(Control_word[12:10]),
+        .BA(Control_word[9:7]),
+        .MB(Control_word[6]),
+        .FS(Control_word[5:2]),
+        .MD(Control_word[1]),
+        .RW(Control_word[0]),
         //other input
         .reset(reset),
         .clk(clk),

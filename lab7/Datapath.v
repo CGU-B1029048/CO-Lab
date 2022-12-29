@@ -1,5 +1,5 @@
 module Datapath (
-    //OPcode
+    //Control Word
     input [2:0] DA, AA, BA,
     input MB,
     input [3:0] FS,
