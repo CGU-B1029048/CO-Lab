@@ -1,7 +1,11 @@
 module Datapath (
+    //OPcode
     input [2:0] DA, AA, BA,
+    input MB,
     input [3:0] FS,
-    input MB, MD, RW, reset, clk,
+    input MD, RW,
+    //other inputs 
+    input reset, clk,
     input [7:0] Data_in, constant_in,
     output [7:0] Data_out, Address_out,
     output V, C, D, Z
