@@ -6,6 +6,7 @@ module CPU(IR,Data_in,PC,Address_out,Data_out,MW,clk,reset);
 	output [7:0] PC,Address_out,Data_out;
 	wire [15:0] control_word;
 	wire PL, JB, BC;
+	wire V, C, N, Z;
 	reg [7:0] PC,OP,AD,Constant_in;
 	reg [6:0] Opcode;
 	//reg [7:0] R [0:7];
@@ -45,8 +46,20 @@ module CPU(IR,Data_in,PC,Address_out,Data_out,MW,clk,reset);
 			PC <= 0;
 		end
 		else begin
-			if ((IR[15]&&IR[14])==0)
+			if (!PL)
 				PC <= PC+1;
+			else begin
+				if (JB)
+					PC <= Address_out
+				else begin
+					if (~BC & Z)
+						PC <= Address_out;
+					else if (BC & (N & Z))
+						PC <= Address_out;
+					else
+						PC <= PC + 1;
+				end
+			end
 			// Comment the following case...endcase statement after insesrting the datapath circuit
 			// case(Opcode)
 			// 	7'b0000000: R[DR]<=R[SA];//MOVA
