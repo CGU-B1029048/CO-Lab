@@ -10,7 +10,7 @@ module lab7 (
     reg [1:0] mode;
     reg [7:0] Data1c;
     reg [4:0] Data_in1c;
-    reg [15:0] Control_word_in,
+    reg [15:0] Control_word_in;
     reg [15:0] Control_word;
 
     debounce(clk, start_b, start);
@@ -22,21 +22,26 @@ module lab7 (
         if (mode_w) begin
             mode <= mode + 1;
         end
+        Control_word_in[15:13] <= DA;
+        Control_word_in[12:10] <= AA;
+        Control_word_in[9:7] <= BA;
+        Control_word_in[6] <= 0;
+        Control_word_in[0] <= 0;
         case(mode)
             0: begin //load from reg
-                Control_word_in <= {DA, AA, BA, 0, 4'b0000, 0, 0};
+                Control_word_in[5:1] <= 5'b00000;
             end
             1: begin //load from data in
-                Control_word_in <= {DA, AA, BA, 0, 4'b1100, 1, 0};
+                Control_word_in[5:1] <= 5'b11001;
             end
             2: begin //add
-                Control_word_in <= {DA, AA, BA, 0, 4'b0010, 0, 0};
+                Control_word_in[5:1] <= 5'b00100;
             end
             3: begin //inc
-                Control_word_in <= {DA, AA, BA, 0, 4'b0001, 0, 0};
+                Control_word_in[5:1] <= 5'b00010;
             end
             default:
-                Control_word_in <= {DA, AA, BA, 0, 4'b0000, 0, 0};
+                Control_word_in[5:1] <= 5'b00000;
         endcase
     end
 
