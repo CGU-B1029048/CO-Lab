@@ -1,17 +1,22 @@
 module Datapath (
     //Control Word
-    input [2:0] DA, AA, BA,
-    input MB,
-    input [3:0] FS,
-    input MD, RW,
+    input [15:0] control_word,
     //other inputs 
     input reset, clk,
     input [7:0] Data_in, constant_in,
     output [7:0] Data_out, Address_out,
     output V, C, D, Z
 );
+    //Control Word decode
+    wire [2:0] DA, AA, BA,
+    wire MB,
+    wire [3:0] FS,
+    wire MD, RW,
     wire [7:0] Bus_A, RFout_B, FU_Data;
     reg [7:0] Bus_B, DA_Data;
+
+    //Control Word decode assignment
+    assign {DA, AA, BA, MB, FS, MD, RW} = control_word;     
 
     //register file
     Register_File(DA_Data, DA, AA, BA, RW, reset, clk, Bus_A, RFout_B);
