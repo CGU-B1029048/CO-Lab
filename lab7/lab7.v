@@ -22,23 +22,48 @@ module lab7 (
         if (mode_w) begin
             mode <= mode + 1;
         end
-        Control_word_in[15:13] <= DA;
-        Control_word_in[12:10] <= AA;
-        Control_word_in[9:7] <= BA;
-        Control_word_in[6] <= 0;
-        Control_word_in[0] <= 1;
+        // Control_word_in[15:13] <= DA;
+        // Control_word_in[12:10] <= AA;
+        // Control_word_in[9:7] <= BA;
+        // Control_word_in[6] <= 0; //MB
+        // Control_word_in[0] <= 1; //RW
         case(mode)
-            0: begin //load from reg
-                Control_word_in[5:1] <= 5'b00000;
+            0: begin //load A
+                Control_word_in[15:13] <= 3'b000; //DA = R0
+                Control_word_in[12:10] <= 3'b000; //AA = R0
+                Control_word_in[9:7] <= 3'b000; //BA = R0
+                Control_word_in[6] <= 0; //MB = 0, Register
+                Control_word_in[5:2] <= 4'b0000; //FS = 0000 MOVA
+                Control_word_in[1] <= 1; //MD = 1, Data in
+                Control_word_in[0] <= 1; //RW = 1, Write 
             end
-            1: begin //load from data in
-                Control_word_in[5:1] <= 5'b11001;
+            1: begin //load B
+                Control_word_in[15:13] <= 3'b001; //DA = R1
+                Control_word_in[12:10] <= 3'b001; //AA = R1
+                Control_word_in[9:7] <= 3'b001; //BA = R1
+                Control_word_in[6] <= 0; //MB = 0, Register
+                Control_word_in[5:2] <= 4'b0000; //FS = 0000 MOVA
+                Control_word_in[1] <= 1; //MD = 1, Data in
+                Control_word_in[0] <= 1; //RW = 1, Write 
             end
             2: begin //add
-                Control_word_in[5:1] <= 5'b00100;
+                Control_word_in[15:13] <= 3'b010; //DA = R2
+                Control_word_in[12:10] <= 3'b001; //AA = R1
+                Control_word_in[9:7] <= 3'b000; //BA = R0
+                Control_word_in[6] <= 0; //MB = 0, Register
+                Control_word_in[5:2] <= 4'b0010; //FS = 0010 ADD
+                Control_word_in[1] <= 0; //MD = 1, Function
+                Control_word_in[0] <= 1; //RW = 1, Write 
             end
-            3: begin //inc
-                Control_word_in[5:1] <= 5'b00010;
+            3: begin //reset
+                Control_word_in[15:13] <= 3'b010; //DA = R2
+                Control_word_in[12:10] <= 3'b000; //AA = R0
+                Control_word_in[9:7] <= 3'b000; //BA = R0
+                Control_word_in[6] <= 1; //MB = 1, Constant
+                Control_word_in[5:2] <= 4'b1100; //FS = 1100 MOVB
+                Control_word_in[1] <= 0; //MD = 1, Function
+                Control_word_in[0] <= 1; //RW = 1, Write 
+
             end
             default:
                 Control_word_in[5:1] <= 5'b00000;
