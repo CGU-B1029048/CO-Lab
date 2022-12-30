@@ -8,10 +8,10 @@ module Datapath (
     output V, C, D, Z
 );
     //Control Word decode
-    wire [2:0] DA, AA, BA,
-    wire MB,
-    wire [3:0] FS,
-    wire MD, RW,
+    wire [2:0] DA, AA, BA;
+    wire MB;
+    wire [3:0] FS;
+    wire MD, RW;
     wire [7:0] Bus_A, RFout_B, FU_Data;
     reg [7:0] Bus_B, DA_Data;
 

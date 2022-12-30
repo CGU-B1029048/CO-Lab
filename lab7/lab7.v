@@ -48,13 +48,7 @@ module lab7 (
     //input to Datapath module
     Datapath(
         //Control_word
-        .DA(Control_word[15:13]),
-        .AA(Control_word[12:10]),
-        .BA(Control_word[9:7]),
-        .MB(Control_word[6]),
-        .FS(Control_word[5:2]),
-        .MD(Control_word[1]),
-        .RW(Control_word[0]),
+        .control_word(Control_word),
         //other input
         .reset(reset),
         .clk(clk),
