@@ -50,7 +50,7 @@ module CPU(IR,Data_in,PC,Address_out,Data_out,MW,clk,reset);
 				PC <= PC+1;
 			else begin
 				if (JB)
-					PC <= Address_out
+					PC <= Address_out;
 				else begin
 					if (~BC & Z)
 						PC <= Address_out;
