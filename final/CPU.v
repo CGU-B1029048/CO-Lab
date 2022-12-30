@@ -24,7 +24,7 @@ module CPU(IR,Data_in,PC,Address_out,Data_out,MW,clk,reset);
 	end
 	
 	// OPcode decode to control word for datapath
-	assign control_word[15:7] = {DA, SA, SB}; //DA, AA, BA
+	assign control_word[15:7] = {DR, SA, SB}; //DA, AA, BA
 	assign control_word[6] = IR[15]; //MB
 	assign control_word[5:2] = {IR[11:9], IR[9]&~PL}; //FS
 	assign control_word[1] = IR[13]; //MD
