@@ -3,11 +3,11 @@ module lab7 (
     input [2:0] DA, AA, BA,
     input start_b, reset_b, mode_b, clk,
     output C, V, D, Z,
+    output reg [1:0] mode,
     output [6:0] segA, seg_signA, segData0, segData1, seg_signData
 );
     wire [7:0] Data, Address_out;
     wire start, reset, mode_w;
-    reg [1:0] mode;
     reg [7:0] Data1c;
     reg [4:0] Data_in1c;
     reg [15:0] Control_word_in;
