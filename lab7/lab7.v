@@ -2,7 +2,7 @@ module lab7 (
     input [4:0] Data_in,
     input [2:0] DA, AA, BA,
     input start_b, reset_b, mode_b, clk,
-    output C, V, D, Z,
+    output C, V, N, Z,
     output reg [1:0] mode,
     output [6:0] segA, seg_signA, segData0, segData1, seg_signData
 );
@@ -26,7 +26,7 @@ module lab7 (
         Control_word_in[12:10] <= AA;
         Control_word_in[9:7] <= BA;
         Control_word_in[6] <= 0;
-        Control_word_in[0] <= 0;
+        Control_word_in[0] <= 1;
         case(mode)
             0: begin //load from reg
                 Control_word_in[5:1] <= 5'b00000;
@@ -90,7 +90,7 @@ module lab7 (
         //output signal
         .V(V),
         .C(C),
-        .D(D),
+        .N(N),
         .Z(Z)
         );
 endmodule
