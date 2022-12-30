@@ -1,25 +1,25 @@
 module lab7 (
     input [4:0] Data_in,
-    input [2:0] DA, AA, BA,
-    input start_b, reset_b, mode_b, clk,
+    // input [2:0] DA, AA, BA,
+    input start_b, reset_b, clk,// mode_b
     output C, V, N, Z,
     output reg [1:0] mode,
     output [6:0] segA, seg_signA, segData0, segData1, seg_signData
 );
     wire [7:0] Data, Address_out;
-    wire start, reset, mode_w;
+    wire start, reset;//, mode_w;
     reg [7:0] Data1c;
     reg [4:0] Data_in1c;
-    reg [15:0] Control_word_in;
+    // reg [15:0] Control_word_in;
     reg [15:0] Control_word;
 
     debounce(clk, start_b, start);
     debounce(clk, reset_b, reset);
-    debounce(clk, mode_b, mode_w);
+    // debounce(clk, mode_b, mode_w);
 
     //state diagram of mode
     always@(posedge clk) begin
-        if (mode_w) begin
+        if (start) begin
             mode <= mode + 1;
         end
         // Control_word_in[15:13] <= DA;
@@ -29,52 +29,52 @@ module lab7 (
         // Control_word_in[0] <= 1; //RW
         case(mode)
             0: begin //load A
-                Control_word_in[15:13] <= 3'b000; //DA = R0
-                Control_word_in[12:10] <= 3'b000; //AA = R0
-                Control_word_in[9:7] <= 3'b000; //BA = R0
-                Control_word_in[6] <= 0; //MB = 0, Register
-                Control_word_in[5:2] <= 4'b0000; //FS = 0000 MOVA
-                Control_word_in[1] <= 1; //MD = 1, Data in
-                Control_word_in[0] <= 1; //RW = 1, Write 
+                Control_word[15:13] <= 3'b000; //DA = R0
+                Control_word[12:10] <= 3'b000; //AA = R0
+                Control_word[9:7] <= 3'b000; //BA = R0
+                Control_word[6] <= 0; //MB = 0, Register
+                Control_word[5:2] <= 4'b0000; //FS = 0000 MOVA
+                Control_word[1] <= 1; //MD = 1, Data in
+                Control_word[0] <= 1; //RW = 1, Write 
             end
             1: begin //load B
-                Control_word_in[15:13] <= 3'b001; //DA = R1
-                Control_word_in[12:10] <= 3'b001; //AA = R1
-                Control_word_in[9:7] <= 3'b001; //BA = R1
-                Control_word_in[6] <= 0; //MB = 0, Register
-                Control_word_in[5:2] <= 4'b0000; //FS = 0000 MOVA
-                Control_word_in[1] <= 1; //MD = 1, Data in
-                Control_word_in[0] <= 1; //RW = 1, Write 
+                Control_word[15:13] <= 3'b001; //DA = R1
+                Control_word[12:10] <= 3'b001; //AA = R1
+                Control_word[9:7] <= 3'b001; //BA = R1
+                Control_word[6] <= 0; //MB = 0, Register
+                Control_word[5:2] <= 4'b0000; //FS = 0000 MOVA
+                Control_word[1] <= 1; //MD = 1, Data in
+                Control_word[0] <= 1; //RW = 1, Write 
             end
             2: begin //add
-                Control_word_in[15:13] <= 3'b010; //DA = R2
-                Control_word_in[12:10] <= 3'b001; //AA = R1
-                Control_word_in[9:7] <= 3'b000; //BA = R0
-                Control_word_in[6] <= 0; //MB = 0, Register
-                Control_word_in[5:2] <= 4'b0010; //FS = 0010 ADD
-                Control_word_in[1] <= 0; //MD = 1, Function
-                Control_word_in[0] <= 1; //RW = 1, Write 
+                Control_word[15:13] <= 3'b010; //DA = R2
+                Control_word[12:10] <= 3'b001; //AA = R1
+                Control_word[9:7] <= 3'b000; //BA = R0
+                Control_word[6] <= 0; //MB = 0, Register
+                Control_word[5:2] <= 4'b0010; //FS = 0010 ADD
+                Control_word[1] <= 0; //MD = 1, Function
+                Control_word[0] <= 1; //RW = 1, Write 
             end
             3: begin //reset
-                Control_word_in[15:13] <= 3'b010; //DA = R2
-                Control_word_in[12:10] <= 3'b000; //AA = R0
-                Control_word_in[9:7] <= 3'b000; //BA = R0
-                Control_word_in[6] <= 1; //MB = 1, Constant
-                Control_word_in[5:2] <= 4'b1100; //FS = 1100 MOVB
-                Control_word_in[1] <= 0; //MD = 1, Function
-                Control_word_in[0] <= 1; //RW = 1, Write 
+                Control_word[15:13] <= 3'b010; //DA = R2
+                Control_word[12:10] <= 3'b000; //AA = R0
+                Control_word[9:7] <= 3'b000; //BA = R0
+                Control_word[6] <= 1; //MB = 1, Constant
+                Control_word[5:2] <= 4'b1100; //FS = 1100 MOVB
+                Control_word[1] <= 0; //MD = 1, Function
+                Control_word[0] <= 1; //RW = 1, Write 
 
             end
-            default:
-                Control_word_in[5:1] <= 5'b00000;
+            // default:
+            //     Control_word_in[5:1] <= 5'b00000;
         endcase
     end
 
     //enter Control_word which will later goto Datapath while start_b pressed
-    always@(posedge clk) begin
-        if (start)
-            Control_word <= Control_word_in;
-    end
+    // always@(posedge clk) begin
+    //     if (start)
+    //         Control_word <= Control_word_in;
+    // end
 
     //transfrom Data_in from 2's complement to 7 seg dispaly
     always@(*) begin
