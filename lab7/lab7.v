@@ -1,19 +1,44 @@
 module lab7 (
-    input [15:0] Control_word_in,
     input [4:0] Data_in,
-    input start_b, reset_b, clk,
-    input [2:0] S,
+    input [2:0] DA, AA, BA,
+    input start_b, reset_b, mode_b, clk,
     output C, V, D, Z,
     output [6:0] segA, seg_signA, segData0, segData1, seg_signData
 );
     wire [7:0] Data, Address_out;
-    wire start, reset;
+    wire start, reset, mode_w;
+    reg [1:0] mode;
     reg [7:0] Data1c;
     reg [4:0] Data_in1c;
+    reg [15:0] Control_word_in,
     reg [15:0] Control_word;
 
     debounce(clk, start_b, start);
     debounce(clk, reset_b, reset);
+    debounce(clk, mode_b, mode_w);
+
+    //state diagram of mode
+    always@(posedge clk) begin
+        if (mode_w) begin
+            mode <= mode + 1;
+        end
+        case(mode)
+            0: begin //load from reg
+                Control_word_in <= {DA, AA, BA, 0, 4'b0000, 0, 0};
+            end
+            1: begin //load from data in
+                Control_word_in <= {DA, AA, BA, 0, 4'b1100, 1, 0};
+            end
+            2: begin //add
+                Control_word_in <= {DA, AA, BA, 0, 4'b0010, 0, 0};
+            end
+            3: begin //inc
+                Control_word_in <= {DA, AA, BA, 0, 4'b0001, 0, 0};
+            end
+            default:
+                Control_word_in <= {DA, AA, BA, 0, 4'b0000, 0, 0};
+        endcase
+    end
 
     //enter Control_word which will later goto Datapath while start_b pressed
     always@(posedge clk) begin
