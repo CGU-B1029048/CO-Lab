@@ -17,8 +17,8 @@ module Function_unit (
     //MUX for select data from ALU or shifter
     always@(*) begin
         case (MF)
-            0: F =  sh_data;
-            1: F = ALU_data;
+            1: F =  sh_data;
+            0: F = ALU_data;
             default: F = ALU_data;
         endcase
     end

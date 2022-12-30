@@ -62,7 +62,7 @@ module lab7 (
                 Control_word[6] <= 0; //MB = 0, Register
                 Control_word[5:2] <= 4'b1100; //FS = 1100 MOVB
                 Control_word[1] <= 0; //MD = 1, Function
-                Control_word[0] <= 1; //RW = 1, Write 
+                Control_word[0] <= 0; //RW = 0, No Write 
 
             end
             // default:
