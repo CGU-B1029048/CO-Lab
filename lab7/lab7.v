@@ -55,11 +55,11 @@ module lab7 (
                 Control_word[1] <= 0; //MD = 1, Function
                 Control_word[0] <= 1; //RW = 1, Write 
             end
-            3: begin //reset
+            3: begin //load a+b to B
                 Control_word[15:13] <= 3'b010; //DA = R2
                 Control_word[12:10] <= 3'b000; //AA = R0
-                Control_word[9:7] <= 3'b000; //BA = R0
-                Control_word[6] <= 1; //MB = 1, Constant
+                Control_word[9:7] <= 3'b010; //BA = R2
+                Control_word[6] <= 0; //MB = 0, Register
                 Control_word[5:2] <= 4'b1100; //FS = 1100 MOVB
                 Control_word[1] <= 0; //MD = 1, Function
                 Control_word[0] <= 1; //RW = 1, Write 
