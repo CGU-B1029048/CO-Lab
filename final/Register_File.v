@@ -2,9 +2,9 @@ module Register_File (
     input [7:0] Data,
     input [2:0] DA, AA, BA,
     input RW, reset, clk,
-    output reg [7:0] A, B
+    output reg [7:0] A, B,
+    output reg [7:0] R0, R1, R2, R3, R4, R5, R6, R7
 );
-    reg [7:0] R0, R1, R2, R3, R4, R5, R6, R7;
 
     //register load & reset w/ clk
     always@(posedge clk) begin
