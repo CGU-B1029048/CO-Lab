@@ -7,9 +7,9 @@ module ALU (
     );
     wire [7:0] Data_logic, Data_arithmetic;
     //input to Logic unit
-    Logic_unit(A, B, {S[0], Cin}, Data_logic);
+    Logic_unit lu(A, B, {S[0], Cin}, Data_logic);
     //input to Aeithmetic unit
-    Arithmetic_unit(A, B, Cin, S[1:0], Data_arithmetic, Cout, Overflow);
+    Arithmetic_unit au(A, B, Cin, S[1:0], Data_arithmetic, Cout, Overflow);
     
     //MUX for deciding output source
     always@(*) begin
