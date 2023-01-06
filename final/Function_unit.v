@@ -7,9 +7,9 @@ module Function_unit (
     wire [7:0] ALU_data, sh_data;
     wire Cout, Overflow, MF; 
     //ALU
-    ALU(A, B, FS[0], FS[3:1], ALU_data, Cout, Overflow);
+    ALU alu(A, B, FS[0], FS[3:1], ALU_data, Cout, Overflow);
     //Shifter
-    shifter(B, FS[1:0], 0, 0, sh_data);
+    shifter sh(B, FS[1:0], 0, 0, sh_data);
 
     //MF = FS[3] AND FS[2]
     assign MF = FS[3] & FS[2];
