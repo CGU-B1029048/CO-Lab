@@ -5,7 +5,8 @@ module Datapath (
     input reset, clk,
     input [7:0] Data_in, constant_in,
     output [7:0] Data_out, Address_out,
-    output V, C, N, Z
+    output V, C, N, Z,
+	 output wire [7:0] R0, R1, R2, R3, R4, R5, R6, R7
 );
     //Control Word decode
     wire [2:0] DA, AA, BA;
@@ -19,9 +20,9 @@ module Datapath (
     assign {DA, AA, BA, MB, FS, MD, RW} = control_word;     
 
     //register file
-    Register_File(DA_Data, DA, AA, BA, RW, reset, clk, Bus_A, RFout_B);
+    Register_File ef(DA_Data, DA, AA, BA, RW, reset, clk, Bus_A, RFout_B, R0, R1, R2, R3, R4, R5, R6, R7);
     //Function Unit
-    Function_unit(FS, Bus_A, Bus_B, V, C, N, Z, FU_Data);
+    Function_unit fu(FS, Bus_A, Bus_B, V, C, N, Z, FU_Data);
     //output Bus A & B
     assign Data_out = Bus_B;
     assign Address_out = Bus_A;
