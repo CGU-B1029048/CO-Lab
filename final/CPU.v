@@ -1,16 +1,17 @@
-module CPU(IR,Data_in,PC,Address_out,Data_out,MW,clk,reset);
+module CPU(IR,Data_in,PC,Address_out,Data_out,MW,clk,reset,R0, R1, R2, R3, R4, R5, R6, R7, DR,SA,SB);
 	input clk,reset;
 	input [15:0] IR;
 	input [7:0] Data_in;
 	output MW;
 	output [7:0] PC,Address_out,Data_out;
+	output [7:0] R0, R1, R2, R3, R4, R5, R6, R7;
 	wire [15:0] control_word;
 	wire PL, JB, BC;
 	wire V, C, N, Z;
 	reg [7:0] PC,OP,AD,Constant_in;
 	reg [6:0] Opcode;
 	//reg [7:0] R [0:7];
-	reg [2:0] DR,SA,SB;
+	output reg [2:0] DR,SA,SB;
 	reg MW;
 
 	always @(*) begin
@@ -26,16 +27,16 @@ module CPU(IR,Data_in,PC,Address_out,Data_out,MW,clk,reset);
 	
 	// OPcode decode to control word for datapath
 	assign control_word[15:7] = {DR, SA, SB}; //DA, AA, BA
-	assign control_word[6] = IR[15]; //MB
-	assign control_word[5:2] = {IR[11:9], IR[9]&~PL}; //FS
-	assign control_word[1] = IR[13]; //MD
-	assign control_word[0] = ~IR[14]; //RW
-	assign PL = IR[15] & IR[14];
-	assign JB = IR[13];
-	assign BC = IR[9];
+	assign control_word[6] = Opcode[6]; //MB
+	assign control_word[5:2] = {Opcode[3:1], Opcode[0]&~PL}; //FS
+	assign control_word[1] = Opcode[4]; //MD
+	assign control_word[0] = ~Opcode[5]; //RW
+	assign PL = Opcode[6] & Opcode[5];
+	assign JB = Opcode[4];
+	assign BC = Opcode[0];
 
 	// insert datapath
-	Datapath(control_word, reset, clk, Data_in, Constant_in, Data_out, Address_out, V, C, D, Z);
+	Datapath ddd(control_word, reset, clk, Data_in, Constant_in, Data_out, Address_out, V, C, D, Z, R0, R1, R2, R3, R4, R5, R6, R7);
 
 	// Comment the following two lines after insesrting the datapath circuit
 	// assign Address_out = R[SA];
