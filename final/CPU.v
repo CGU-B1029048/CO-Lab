@@ -36,7 +36,7 @@ module CPU(IR,Data_in,PC,Address_out,Data_out,MW,clk,reset,R0, R1, R2, R3, R4, R
 	assign BC = Opcode[0];
 
 	// insert datapath
-	Datapath ddd(control_word, reset, clk, Data_in, Constant_in, Data_out, Address_out, V, C, D, Z, R0, R1, R2, R3, R4, R5, R6, R7);
+	Datapath ddd(control_word, reset, clk, Data_in, Constant_in, Data_out, Address_out, V, C, N, Z, R0, R1, R2, R3, R4, R5, R6, R7);
 
 	// Comment the following two lines after insesrting the datapath circuit
 	// assign Address_out = R[SA];
@@ -52,14 +52,12 @@ module CPU(IR,Data_in,PC,Address_out,Data_out,MW,clk,reset,R0, R1, R2, R3, R4, R
 			else begin
 				if (JB)
 					PC <= Address_out;
-				else begin
-					if (~BC & Z)
-						PC <= Address_out;
-					else if (BC & (N & Z))
-						PC <= Address_out;
-					else
-						PC <= PC + 1;
-				end
+				else if (~BC & Z)
+					PC <= PC + AD;
+				else if (BC & Address_out[7])
+					PC <= PC + AD;
+				else
+					PC <= PC + 1;
 			end
 			// Comment the following case...endcase statement after insesrting the datapath circuit
 			// case(Opcode)
